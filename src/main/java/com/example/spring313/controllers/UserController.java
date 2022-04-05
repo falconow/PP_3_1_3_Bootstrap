@@ -38,6 +38,7 @@ public class UserController {
     public String printAdmin(Model model) {
         List<User> listUsers = userService.getAllUser();
         model.addAttribute("listUsers", listUsers);
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "adminPanel";
     }
 

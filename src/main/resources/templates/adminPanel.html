@@ -126,8 +126,7 @@
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="role">Role</label>
                                     <select multiple class="form-control" id="role" name="role">
-                                        <option value=1>ROLE_ADMIN</option>
-                                        <option value=2>ROLE_USER</option>
+                                        <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.role}"> </option>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-success p-2">Add new user</button>

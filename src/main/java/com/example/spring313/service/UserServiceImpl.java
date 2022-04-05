@@ -29,27 +29,27 @@ public class UserServiceImpl implements UserService {
     }
 
 
-//    @PostConstruct
-//    public void init() {
-//        //Создание ролей
-//        String[] roleNames = {"ROLE_ADMIN","ROLE_USER"};
-//        List<Role> listRoles = new ArrayList<>();
-//        for (String name:roleNames) {
-//            Role role = new Role();
-//            role.setRole(name);
-//            listRoles.add(role);
-//        }
-//
-//        //Создание пользователя
-//        User defaultUser = new User();
-//        defaultUser.setFirstName("Admin");
-//        defaultUser.setLastName("Admin");
-//        defaultUser.setEmail("admin@kata.info");
-//        defaultUser.setAge("29");
-//        defaultUser.setPassword("admin");
-//        defaultUser.setCollectionsRoles(listRoles);
-//        userDao.addUser(defaultUser);
-//    }
+    @PostConstruct
+    public void init() {
+        //Создание ролей
+        String[] roleNames = {"ROLE_ADMIN","ROLE_USER"};
+        List<Role> listRoles = new ArrayList<>();
+        for (String name:roleNames) {
+            Role role = new Role();
+            role.setRole(name);
+            listRoles.add(role);
+        }
+
+        //Создание пользователя
+        User defaultUser = new User();
+        defaultUser.setFirstName("Admin");
+        defaultUser.setLastName("Admin");
+        defaultUser.setEmail("admin@kata.info");
+        defaultUser.setAge("29");
+        defaultUser.setPassword(encoder.encode("admin"));
+        defaultUser.setCollectionsRoles(listRoles);
+        userDao.addUser(defaultUser);
+    }
 
     @Override
     public void addUser(User user) {
