@@ -6,6 +6,9 @@ import com.example.spring313.model.User;
 import com.example.spring313.service.RoleService;
 import com.example.spring313.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +40,9 @@ public class UserController {
     @GetMapping("/admin")
     public String printAdmin(Model model) {
         List<User> listUsers = userService.getAllUser();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User authUser = (User) authentication.getPrincipal();
+        model.addAttribute("authUser", authentication.getName() + " with roles: " + authentication.getAuthorities().toString());
         model.addAttribute("listUsers", listUsers);
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "adminPanel";
@@ -68,7 +74,6 @@ public class UserController {
             roles = selectRoles.stream().map(roleService::findRoleById).toList();
         }
 
-
         user.setCollectionsRoles(roles);
         userService.addUser(user);
         return "redirect:/admin";
@@ -83,7 +88,7 @@ public class UserController {
 
     //Изменение пользователя
     @PutMapping(value = "/admin/{id}/edit")
-    public String saveEditUser(@ModelAttribute User user, @RequestParam(required = false, value = "roles") List<Long> selectRoles) {
+    public String saveEditUser(@ModelAttribute User user, @RequestParam(required = false, value = "role") List<Long> selectRoles) {
         List<Role> roles = new ArrayList<>();
         if (selectRoles != null && !selectRoles.isEmpty()) {
             roles = selectRoles.stream().map(roleService::findRoleById).toList();
