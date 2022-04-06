@@ -42,7 +42,10 @@ public class UserController {
         List<User> listUsers = userService.getAllUser();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User authUser = (User) authentication.getPrincipal();
-        model.addAttribute("authUser", authentication.getName() + " with roles: " + authentication.getAuthorities().toString());
+        authUser.setPassword("");
+        model.addAttribute("authUser", authUser);
+        model.addAttribute("authUserRoles",  authentication.getAuthorities());
+        //model.addAttribute("authUser", authentication.getName() + " with roles: " + authentication.getAuthorities().toString());
         model.addAttribute("listUsers", listUsers);
         model.addAttribute("allRoles", roleService.getAllRoles());
         return "adminPanel";

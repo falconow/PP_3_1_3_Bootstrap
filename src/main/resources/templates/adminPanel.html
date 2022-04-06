@@ -19,7 +19,11 @@
 
         <div class="col-11">
             <div class="row p-2">
-                <h5 class="font-weight-bold" th:utext="${authUser}"> </h5>
+                <h5>
+                    <span class="font-weight-bold" th:text="${authUser.email}">test1</span>
+                    <span>with roles:</span>
+                    <span th:each="roleauth : ${authUserRoles}" th:text="${roleauth} + ' '"></span>
+                </h5>
             </div>
 
         </div>
@@ -141,7 +145,37 @@
             </div>
             <!-- Элемент навигации User -->
             <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
-                User
+                <h1>User information-page</h1>
+                <!-- Заголовок -->
+                <div class="border bg-light">
+                    <h5 class="p-3">About user</h5>
+                </div>
+                <div class="p-4 bg-white">
+                    <table class="table table-hover bg-white">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last NAme</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:object="${authUser}">
+                            <th scope="row" th:utext="*{id}">...</th>
+                            <td th:utext="*{firstName}">...</td>
+                            <td th:utext="*{lastName}">...</td>
+                            <td th:utext="*{age}">...</td>
+                            <td th:utext="*{email}">...</td>
+                            <td>
+                                <span th:each="roleauth : ${authUserRoles}" th:text="${roleauth} + ' '"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -156,7 +190,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="container-fluid" th:action="@{/admin/delete/{id}(id = ${user.id})}" th:method="DELETE">
+                <form class="container-fluid text-center" th:action="@{/admin/delete/{id}(id = ${user.id})}" th:method="DELETE">
                     <div class="modal-body">
                         <fieldset disabled>
                             <div class="form-group">
@@ -206,7 +240,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="container-fluid" th:action="@{/admin/{id}/edit(id=${user.id})}" th:method="PUT">
+                <form class="container-fluid text-center" th:action="@{/admin/{id}/edit(id=${user.id})}" th:method="PUT">
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="font-weight-bold ">ID</label>
